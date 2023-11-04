@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TestUserFactory.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-java</a> &gt; <a href="index.source.html" class="el_package">factories</a> &gt; <span class="el_source">TestUserFactory.java</span></div><h1>TestUserFactory.java</h1><pre class="source lang-java linenums">package factories;
+
+import com.github.javafaker.Faker;
+import infrastructure.MailslurpService;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import models.TestUser;
+import models.UserStatus;
+
+import static io.restassured.RestAssured.given;
+
+<span class="nc" id="L13">public class TestUserFactory {</span>
+
+<span class="nc" id="L15">    private static final Faker faker = new Faker();</span>
+
+    public static TestUser createDefault() {
+<span class="nc" id="L18">        return createDefault(UserStatus.ACTIVE);</span>
+    }
+
+    public static TestUser createDefaultWithRealEmail() {
+<span class="nc" id="L22">        return createDefaultWithRealEmail(UserStatus.ACTIVE);</span>
+    }
+
+    public static TestUser createDefault2FAWithRealEmail() {
+<span class="nc" id="L26">        String username = faker.name().username();</span>
+<span class="nc" id="L27">        String password = generatePassword();</span>
+<span class="nc" id="L28">        String phone = generatePhoneNumber();</span>
+
+<span class="nc" id="L30">        return createTestUser2FAWithRealEmail(username, password, phone, UserStatus.ACTIVE.toString());</span>
+    }
+
+    public static TestUser createDefault(UserStatus status) {
+<span class="nc" id="L34">        String username = faker.name().username();</span>
+<span class="nc" id="L35">        String email = faker.internet().emailAddress();</span>
+<span class="nc" id="L36">        String password = generatePassword();</span>
+<span class="nc" id="L37">        String phone = generatePhoneNumber();</span>
+
+<span class="nc" id="L39">        return createTestUser(username, email, password, phone, status.toString());</span>
+    }
+
+    public static TestUser createTestUserDto() {
+<span class="nc" id="L43">        var newInbox = MailslurpService.createInbox();</span>
+<span class="nc" id="L44">        String username = generateUsername();</span>
+<span class="nc" id="L45">        String email = newInbox.getEmailAddress();</span>
+<span class="nc" id="L46">        String password = generatePassword();</span>
+<span class="nc" id="L47">        String phone = generatePhoneNumber();</span>
+<span class="nc" id="L48">        TestUser user = new TestUser();</span>
+<span class="nc" id="L49">        user.setUsername(username);</span>
+<span class="nc" id="L50">        user.setEmail(email);</span>
+<span class="nc" id="L51">        user.setPassword(password);</span>
+<span class="nc" id="L52">        user.setPhone(phone);</span>
+<span class="nc" id="L53">        user.setUserInbox(newInbox);</span>
+<span class="nc" id="L54">        return user;</span>
+    }
+
+    public static TestUser createDefaultWithRealEmail(UserStatus status) {
+<span class="nc" id="L58">        String username = faker.name().username();</span>
+<span class="nc" id="L59">        String password = generatePassword();</span>
+<span class="nc" id="L60">        String phone = generatePhoneNumber();</span>
+
+<span class="nc" id="L62">        return createTestUserWithRealEmail(username, password, phone, status.toString());</span>
+    }
+
+    private static String generateUsername() {
+<span class="nc" id="L66">        String username = faker.name().firstName() + faker.number().digits(5);</span>
+<span class="nc" id="L67">        username = username.replaceAll(&quot;[^a-zA-Z0-9]&quot;, &quot;&quot;);</span>
+<span class="nc" id="L68">        return username;</span>
+    }
+
+    private static String generatePassword() {
+        // Using Faker to generate a 10-character password.
+        // If specific character types are required, this method can be adjusted accordingly.
+<span class="nc" id="L74">        return faker.lorem().characters(10) + &quot;Aa&quot;;</span>
+    }
+
+    private static String generatePhoneNumber() {
+        // Generating a 10-digit phone number.
+<span class="nc" id="L79">        return faker.number().digits(10);</span>
+    }
+
+    private static TestUser createTestUser(String username, String email, String password, String phone, String status) {
+<span class="nc" id="L83">        TestUser user = new TestUser();</span>
+<span class="nc" id="L84">        user.setUsername(username);</span>
+<span class="nc" id="L85">        user.setEmail(email);</span>
+<span class="nc" id="L86">        user.setPassword(password);</span>
+<span class="nc" id="L87">        user.setPhone(phone);</span>
+<span class="nc" id="L88">        user.setStatus(status);</span>
+<span class="nc" id="L89">        RestAssured.useRelaxedHTTPSValidation();</span>
+<span class="nc" id="L90">        Response response = given()</span>
+<span class="nc" id="L91">                .baseUri(&quot;https://chesstv.local:3000/&quot;)</span>
+<span class="nc" id="L92">                .contentType(ContentType.JSON)</span>
+<span class="nc" id="L93">                .body(user)</span>
+<span class="nc" id="L94">                .when()</span>
+<span class="nc" id="L95">                .post(&quot;/createTestUser&quot;)</span>
+<span class="nc" id="L96">                .then()</span>
+<span class="nc" id="L97">                .statusCode(200)</span>
+<span class="nc" id="L98">                .extract()</span>
+<span class="nc" id="L99">                .response();</span>
+
+<span class="nc" id="L101">        return response.as(TestUser.class);</span>
+    }
+
+    private static TestUser createTestUserWithRealEmail(String username, String password, String phone, String status) {
+<span class="nc" id="L105">        var newInbox = MailslurpService.createInbox();</span>
+<span class="nc" id="L106">        TestUser user = new TestUser();</span>
+<span class="nc" id="L107">        user.setUsername(username);</span>
+<span class="nc" id="L108">        user.setEmail(newInbox.getEmailAddress());</span>
+
+<span class="nc" id="L110">        user.setPassword(password);</span>
+<span class="nc" id="L111">        user.setPhone(phone);</span>
+<span class="nc" id="L112">        user.setStatus(status);</span>
+<span class="nc" id="L113">        RestAssured.useRelaxedHTTPSValidation();</span>
+<span class="nc" id="L114">        Response response = given()</span>
+<span class="nc" id="L115">                .baseUri(&quot;https://chesstv.local:3000/&quot;)</span>
+<span class="nc" id="L116">                .contentType(ContentType.JSON)</span>
+<span class="nc" id="L117">                .body(user)</span>
+<span class="nc" id="L118">                .when()</span>
+<span class="nc" id="L119">                .post(&quot;/createTestUser&quot;)</span>
+<span class="nc" id="L120">                .then()</span>
+<span class="nc" id="L121">                .statusCode(200)</span>
+<span class="nc" id="L122">                .extract()</span>
+<span class="nc" id="L123">                .response();</span>
+<span class="nc" id="L124">        user = response.as(TestUser.class);</span>
+<span class="nc" id="L125">        user.setUserInbox(newInbox);</span>
+<span class="nc" id="L126">        return user;</span>
+    }
+
+    private static TestUser createTestUser2FAWithRealEmail(String username, String password, String phone, String status) {
+<span class="nc" id="L130">        var newInbox = MailslurpService.createInbox();</span>
+<span class="nc" id="L131">        TestUser user = new TestUser();</span>
+<span class="nc" id="L132">        user.setUsername(username);</span>
+<span class="nc" id="L133">        user.setEmail(newInbox.getEmailAddress());</span>
+
+<span class="nc" id="L135">        user.setPassword(password);</span>
+<span class="nc" id="L136">        user.setPhone(phone);</span>
+<span class="nc" id="L137">        user.setStatus(status);</span>
+<span class="nc" id="L138">        RestAssured.useRelaxedHTTPSValidation();</span>
+<span class="nc" id="L139">        Response response = given()</span>
+<span class="nc" id="L140">                .baseUri(&quot;https://chesstv.local:3000/&quot;)</span>
+<span class="nc" id="L141">                .contentType(ContentType.JSON)</span>
+<span class="nc" id="L142">                .body(user)</span>
+<span class="nc" id="L143">                .when()</span>
+<span class="nc" id="L144">                .post(&quot;/createTestUser2FA&quot;)</span>
+<span class="nc" id="L145">                .then()</span>
+<span class="nc" id="L146">                .statusCode(200)</span>
+<span class="nc" id="L147">                .extract()</span>
+<span class="nc" id="L148">                .response();</span>
+<span class="nc" id="L149">        user = response.as(TestUser.class);</span>
+<span class="nc" id="L150">        user.setUserInbox(newInbox);</span>
+<span class="nc" id="L151">        return user;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

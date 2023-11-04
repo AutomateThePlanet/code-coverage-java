@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TimestampBuilder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-java</a> &gt; <a href="index.source.html" class="el_package">utilities</a> &gt; <span class="el_source">TimestampBuilder.java</span></div><h1>TimestampBuilder.java</h1><pre class="source lang-java linenums">package utilities;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+<span class="nc" id="L6">public class TimestampBuilder {</span>
+    public static synchronized String getGuid() {
+<span class="nc" id="L8">        return java.util.UUID.randomUUID().toString();</span>
+    }
+
+    public static synchronized String buildUniqueTextByPrefix(String prefix) {
+<span class="nc" id="L12">        return buildUniqueText(prefix, &quot;&quot;, &quot;&quot;);</span>
+    }
+
+    public static synchronized String buildUniqueTextByPrefix(String prefix, String separator) {
+<span class="nc" id="L16">        return buildUniqueText(prefix, &quot;&quot;, separator);</span>
+    }
+
+    public static synchronized String buildUniqueTextBySuffix(String suffix) {
+<span class="nc" id="L20">        return buildUniqueText(&quot;&quot;, suffix, &quot;&quot;);</span>
+    }
+
+    public static synchronized String buildUniqueTextBySuffix(String suffix, String separator) {
+<span class="nc" id="L24">        return buildUniqueText(&quot;&quot;, suffix, separator);</span>
+    }
+
+    public static synchronized String buildUniqueText(String prefix, String suffix, String separator) {
+<span class="nc" id="L28">        Date dNow = new Date();</span>
+<span class="nc" id="L29">        SimpleDateFormat ft = new SimpleDateFormat(&quot;yyyyMMddHHmmssSS&quot;);</span>
+<span class="nc" id="L30">        String datetime = ft.format(dNow);</span>
+        try {
+<span class="nc" id="L32">            Thread.sleep(1);</span>
+<span class="nc" id="L33">        } catch (Exception e) {</span>
+<span class="nc" id="L34">            e.printStackTrace();</span>
+<span class="nc" id="L35">        }</span>
+
+<span class="nc" id="L37">        return prefix + separator + datetime + separator + suffix;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

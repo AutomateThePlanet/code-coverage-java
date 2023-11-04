@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmailsResponse.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-java</a> &gt; <a href="index.source.html" class="el_package">models.emails</a> &gt; <span class="el_source">EmailsResponse.java</span></div><h1>EmailsResponse.java</h1><pre class="source lang-java linenums">package models.emails;
+
+import java.util.List;
+import com.google.gson.annotations.SerializedName;
+
+<span class="nc" id="L6">public class EmailsResponse{</span>
+
+	@SerializedName(&quot;result&quot;)
+	private String result;
+
+	@SerializedName(&quot;emails&quot;)
+	private List&lt;EmailsItem&gt; emails;
+
+	@SerializedName(&quot;offset&quot;)
+	private int offset;
+
+	@SerializedName(&quot;count&quot;)
+	private int count;
+
+	@SerializedName(&quot;limit&quot;)
+	private int limit;
+
+	@SerializedName(&quot;message&quot;)
+	private Object message;
+
+	public String getResult(){
+<span class="nc" id="L27">		return result;</span>
+	}
+
+	public List&lt;EmailsItem&gt; getEmails(){
+<span class="nc" id="L31">		return emails;</span>
+	}
+
+	public int getOffset(){
+<span class="nc" id="L35">		return offset;</span>
+	}
+
+	public int getCount(){
+<span class="nc" id="L39">		return count;</span>
+	}
+
+	public int getLimit(){
+<span class="nc" id="L43">		return limit;</span>
+	}
+
+	public Object getMessage(){
+<span class="nc" id="L47">		return message;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

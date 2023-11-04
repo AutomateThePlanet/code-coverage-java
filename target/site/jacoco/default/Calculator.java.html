@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Calculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-java</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Calculator.java</span></div><h1>Calculator.java</h1><pre class="source lang-java linenums">
+
+<span class="fc" id="L3">public class Calculator {</span>
+    public int add(int a, int b) {
+<span class="fc" id="L5">        return a + b;</span>
+    }
+
+    public int subtract(int a, int b) {
+<span class="fc" id="L9">        return a - b;</span>
+    }
+
+    public int multiply(int a, int b) {
+<span class="fc" id="L13">        return a * b;</span>
+    }
+
+    public int divide(int a, int b) {
+<span class="fc bfc" id="L17" title="All 2 branches covered.">        if (b == 0) {</span>
+<span class="fc" id="L18">            throw new IllegalArgumentException(&quot;Division by zero is not allowed&quot;);</span>
+        }
+<span class="fc" id="L20">        return a / b;</span>
+    }
+
+    public int square(int a) {
+<span class="fc" id="L24">        return a * a;</span>
+    }
+
+    public double squareRoot(double a) {
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        if (a &lt; 0) {</span>
+<span class="fc" id="L29">            throw new IllegalArgumentException(&quot;Square root of a negative number is not allowed&quot;);</span>
+        }
+<span class="fc" id="L31">        return Math.sqrt(a);</span>
+    }
+
+    public int factorial(int n) {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (n &lt; 0) {</span>
+<span class="nc" id="L36">            throw new IllegalArgumentException(&quot;Factorial of a negative number is not allowed&quot;);</span>
+        }
+<span class="fc bfc" id="L38" title="All 2 branches covered.">        if (n == 0) {</span>
+<span class="fc" id="L39">            return 1;</span>
+        }
+<span class="fc" id="L41">        int result = 1;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="fc" id="L43">            result *= i;</span>
+        }
+<span class="fc" id="L45">        return result;</span>
+    }
+
+    public int power(int base, int exponent) {
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        if (exponent &lt; 0) {</span>
+<span class="nc" id="L50">            throw new IllegalArgumentException(&quot;Negative exponent is not allowed&quot;);</span>
+        }
+<span class="fc" id="L52">        int result = 1;</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for (int i = 0; i &lt; exponent; i++) {</span>
+<span class="fc" id="L54">            result *= base;</span>
+        }
+<span class="fc" id="L56">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,16 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+code-coverage-java,default,Calculator,10,80,2,12,2,23,2,14,0,9
+code-coverage-java,models,TestUser,340,0,64,0,9,0,53,0,21,0
+code-coverage-java,models,UserStatus,35,0,0,0,8,0,3,0,3,0
+code-coverage-java,models,TwoFA,102,0,18,0,3,0,18,0,9,0
+code-coverage-java,models,User,66,0,0,0,28,0,19,0,19,0
+code-coverage-java,infrastructure,MailslurpService,101,0,0,0,24,0,4,0,4,0
+code-coverage-java,infrastructure,AuthBypassService,62,0,0,0,21,0,3,0,3,0
+code-coverage-java,factories,UserFactory,52,0,0,0,14,0,3,0,3,0
+code-coverage-java,factories,TestUserFactory,280,0,0,0,94,0,14,0,14,0
+code-coverage-java,utilities,TimestampBuilder,52,0,0,0,14,0,7,0,7,0
+code-coverage-java,utilities,ResourcesReader,23,0,2,0,6,0,3,0,2,0
+code-coverage-java,models.emails,EmailsResponse,21,0,0,0,7,0,7,0,7,0
+code-coverage-java,models.emails,EmailsItem,80,0,0,0,25,0,25,0,25,0
+code-coverage-java,models.emails,FromParsedItem,9,0,0,0,3,0,3,0,3,0
+code-coverage-java,models.emails,ToParsedItem,9,0,0,0,3,0,3,0,3,0

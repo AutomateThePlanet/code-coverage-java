@@ -1,0 +1,15 @@
+infrastructure\AuthBypassService.class
+models\TestUser.class
+models\emails\ToParsedItem.class
+models\TwoFA.class
+infrastructure\MailslurpService.class
+models\User.class
+factories\TestUserFactory.class
+models\emails\EmailsResponse.class
+Calculator.class
+utilities\TimestampBuilder.class
+models\emails\EmailsItem.class
+models\UserStatus.class
+utilities\ResourcesReader.class
+models\emails\FromParsedItem.class
+factories\UserFactory.class

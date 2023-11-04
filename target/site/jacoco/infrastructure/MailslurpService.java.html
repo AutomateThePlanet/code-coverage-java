@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MailslurpService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">code-coverage-java</a> &gt; <a href="index.source.html" class="el_package">infrastructure</a> &gt; <span class="el_source">MailslurpService.java</span></div><h1>MailslurpService.java</h1><pre class="source lang-java linenums">package infrastructure;
+
+import com.mailslurp.apis.InboxControllerApi;
+import com.mailslurp.apis.WaitForControllerApi;
+import com.mailslurp.clients.ApiClient;
+import com.mailslurp.clients.ApiException;
+import com.mailslurp.clients.Configuration;
+import com.mailslurp.models.Email;
+import com.mailslurp.models.InboxDto;
+import com.mailslurp.models.SendEmailOptions;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import lombok.SneakyThrows;
+import models.emails.EmailsItem;
+import models.emails.EmailsResponse;
+import okhttp3.OkHttpClient;
+import org.openqa.selenium.WebDriver;
+import utilities.ResourcesReader;
+import utilities.TimestampBuilder;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+<span class="nc" id="L34">public class MailslurpService {</span>
+    private static ApiClient defaultClient;
+    private static InboxControllerApi inboxControllerApi;
+<span class="nc" id="L37">    private static String API_KEY = System.getenv(&quot;MAILSLURP_KEY&quot;);</span>
+<span class="nc" id="L38">    private static final Long TIMEOUT = 30000L;</span>
+
+    static {
+<span class="nc" id="L41">        OkHttpClient httpClient = new OkHttpClient.Builder()</span>
+<span class="nc" id="L42">                .connectTimeout(TIMEOUT, TimeUnit.MILLISECONDS)</span>
+<span class="nc" id="L43">                .writeTimeout(TIMEOUT, TimeUnit.MILLISECONDS)</span>
+<span class="nc" id="L44">                .readTimeout(TIMEOUT, TimeUnit.MILLISECONDS)</span>
+<span class="nc" id="L45">                .build();</span>
+<span class="nc" id="L46">        defaultClient = Configuration.getDefaultApiClient();</span>
+<span class="nc" id="L47">        defaultClient.setConnectTimeout(TIMEOUT.intValue());</span>
+<span class="nc" id="L48">        defaultClient.setWriteTimeout(TIMEOUT.intValue());</span>
+<span class="nc" id="L49">        defaultClient.setReadTimeout(TIMEOUT.intValue());</span>
+<span class="nc" id="L50">        defaultClient.setHttpClient(httpClient);</span>
+<span class="nc" id="L51">        defaultClient.setApiKey(API_KEY);</span>
+<span class="nc" id="L52">        inboxControllerApi = new InboxControllerApi(defaultClient);</span>
+<span class="nc" id="L53">    }</span>
+
+<span class="nc" id="L55">    @SneakyThrows</span>
+    public static InboxDto createInbox() {
+<span class="nc" id="L57">        InboxDto inbox = inboxControllerApi.createInbox(null, null, null, null, null, null, null, null, null, null, null, null, null, null);</span>
+<span class="nc" id="L58">        return inbox;</span>
+    }
+
+<span class="nc" id="L61">    @SneakyThrows</span>
+    public static Email waitForLatestEmail(InboxDto inbox, OffsetDateTime since) {
+<span class="nc" id="L63">        var waitForControllerApi = new WaitForControllerApi(defaultClient);</span>
+<span class="nc" id="L64">        Email receivedEmail = waitForControllerApi</span>
+<span class="nc" id="L65">                .waitForLatestEmail(inbox.getId(), TIMEOUT, false, null, since, null, 10000L);</span>
+
+<span class="nc" id="L67">        return receivedEmail;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
